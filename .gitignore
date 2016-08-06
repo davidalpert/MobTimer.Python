@@ -51,6 +51,9 @@ coverage.xml
 *.mo
 *.pot
 
+# Infrastructure Sessions
+Infrastructure/Sessions/
+
 # Django stuff:
 *.log
 
