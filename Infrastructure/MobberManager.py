@@ -2,7 +2,7 @@ import random
 
 
 class MobberManager(object):
-    def __init__(self, randomize=False):
+    def __init__(self, randomize=False, drive_after_navigating=True):
         self.current_driver_index = 0
         self.next_driver_index = 1
         self.navigator_index = self.next_driver_index

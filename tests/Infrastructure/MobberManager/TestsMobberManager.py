@@ -151,6 +151,55 @@ class TestsMobberManager(unittest.TestCase):
 
         Approvals.verify(result["result"], TextDiffReporter())
 
+    def test_subscribe_to_mobber_list_changes_when_navigating_after_driving(self):
+        mobber_manager = MobberManager(drive_after_navigating=False)
+        result = {"result": "Mobbers in List for Each Change\n", "increment": 0}
+
+        def time_change_callback(mobber_list, driver_index, next_driver_index, navigator_index):
+            result["increment"] += 1
+            result["result"] += "Action " + result["increment"].__str__() + ":"
+            for mobber_index in range(0, mobber_list.__len__()):
+                result["result"] += mobber_list[mobber_index]
+                if mobber_index == driver_index:
+                    result["result"] += " (Current)"
+                if mobber_index == next_driver_index:
+                    result["result"] += " (Next)"
+                if mobber_index == navigator_index:
+                    result["result"] += " (Navigator)"
+                result["result"] += ", "
+
+            result["result"] += "\n"
+
+        mobber_manager.subscribe_to_mobber_list_change(time_change_callback)
+
+        mobber_manager.add_mobber("Joe")
+        mobber_manager.add_mobber("Chris")
+        mobber_manager.add_mobber("Sam")
+        mobber_manager.add_mobber("John")
+        mobber_manager.switch_next_driver()
+        mobber_manager.add_mobber("Bill")
+        mobber_manager.switch_next_driver()
+        mobber_manager.switch_next_driver()
+        mobber_manager.switch_next_driver()
+        mobber_manager.switch_next_driver()
+        mobber_manager.switch_next_driver()
+        mobber_manager.remove_mobber(2)
+        mobber_manager.remove_mobber(0)
+        mobber_manager.switch_next_driver()
+        mobber_manager.rewind_driver()
+        mobber_manager.add_mobber("Seth")
+        mobber_manager.rewind_driver()
+        mobber_manager.rewind_driver()
+        mobber_manager.rewind_driver()
+        mobber_manager.move_mobber_down(0)
+        mobber_manager.add_mobber("Fredrick")
+        mobber_manager.move_mobber_up(2)
+        mobber_manager.remove_mobber(1)
+        mobber_manager.remove_mobber(0)
+        mobber_manager.remove_mobber(0)
+
+        Approvals.verify(result["result"], TextDiffReporter())
+
     def test_subscribe_to_mobber_list_changes_random(self):
         random.seed(0)
         mobber_manager = MobberManager(True)
@@ -227,6 +276,14 @@ class TestsMobberManager(unittest.TestCase):
         mobber_manager.switch_next_driver()
         result = "Next: " + str(mobber_manager.next_driver_index) + " Current: " + str(mobber_manager.current_driver_index) + " Navigator: " + str(mobber_manager.navigator_index)
         self.assertEqual(result, "Next: 0 Current: 1 Navigator: 0")
+
+    def test_navigator_defaults_when_configuration_is_set(self):
+        mobber_manager = MobberManager(drive_after_navigating=False)
+        mobber_manager.add_mobber("Joe")
+        mobber_manager.add_mobber("Chris")
+        mobber_manager.add_mobber("Tracy")
+        result = "Next: " + str(mobber_manager.next_driver_index) + " Current: " + str(mobber_manager.current_driver_index) + " Navigator: " + str(mobber_manager.navigator_index)
+        self.assertEqual(result, "Next: 1 Current: 0 Navigator: 2")
 
 if __name__ == '__main__':
     unittest.main()
