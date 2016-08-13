@@ -115,6 +115,8 @@ class TestsMobberManager(unittest.TestCase):
                     result["result"] += " (Current)"
                 if mobber_index == next_driver_index:
                     result["result"] += " (Next)"
+                if mobber_index == navigator_index:
+                    result["result"] += " (Navigator)"
                 result["result"] += ", "
 
             result["result"] += "\n"
@@ -163,6 +165,8 @@ class TestsMobberManager(unittest.TestCase):
                     result["result"] += " (Current)"
                 if mobber_index == next_driver_index:
                     result["result"] += " (Next)"
+                if mobber_index == navigator_index:
+                    result["result"] += " (Navigator)"
                 result["result"] += ", "
 
             result["result"] += "\n"
