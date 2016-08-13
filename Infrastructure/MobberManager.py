@@ -78,6 +78,7 @@ class MobberManager(object):
         else:
             self.current_driver_index = 0
             self.next_driver_index = 1
+        self.navigator_index = self.next_driver_index
 
     def rewind_driver(self):
         mobber_count = self.mobber_list.__len__()

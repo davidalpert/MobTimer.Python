@@ -209,6 +209,20 @@ class TestsMobberManager(unittest.TestCase):
         result = "Next: " + str(mobber_manager.next_driver_index) + " Current: " + str(mobber_manager.current_driver_index)
         self.assertEqual(result, "Next: 0 Current: 1")
 
+    def test_navigator_defaults_to_next_driver(self):
+        mobber_manager = MobberManager()
+        mobber_manager.add_mobber("Joe")
+        mobber_manager.add_mobber("Chris")
+        result = "Next: " + str(mobber_manager.next_driver_index) + " Current: " + str(mobber_manager.current_driver_index) + " Navigator: " + str(mobber_manager.navigator_index)
+        self.assertEqual(result, "Next: 1 Current: 0 Navigator: 1")
+
+    def test_navigator_moves_with_the_next_driver(self):
+        mobber_manager = MobberManager()
+        mobber_manager.add_mobber("Joe")
+        mobber_manager.add_mobber("Chris")
+        mobber_manager.switch_next_driver()
+        result = "Next: " + str(mobber_manager.next_driver_index) + " Current: " + str(mobber_manager.current_driver_index) + " Navigator: " + str(mobber_manager.navigator_index)
+        self.assertEqual(result, "Next: 0 Current: 1 Navigator: 0")
 
 if __name__ == '__main__':
     unittest.main()
