@@ -5,6 +5,7 @@ class MobberManager(object):
     def __init__(self, randomize=False):
         self.current_driver_index = 0
         self.next_driver_index = 1
+        self.navigator_index = self.next_driver_index
         self.mobber_list = []
         self.mobber_list_change_callbacks = []
         self.randomize = randomize
@@ -49,7 +50,7 @@ class MobberManager(object):
         self.update_next_driver_index()
         for mobber_list_change_callback in self.mobber_list_change_callbacks:
             if mobber_list_change_callback:
-                mobber_list_change_callback(self.mobber_list, self.current_driver_index, self.next_driver_index)
+                mobber_list_change_callback(self.mobber_list, self.current_driver_index, self.next_driver_index, self.navigator_index)
 
     def clear(self):
         self.mobber_list = []

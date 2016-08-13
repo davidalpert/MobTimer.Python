@@ -124,7 +124,7 @@ class MinimalScreenBlockerFrame(ttk.Frame):
         return "Extend Time By {:0>2}:{:0>2} ({})".format(minutes, seconds,
                                                        self.controller.timer_extension_count - self.controller.extensions_used)
 
-    def mobber_list_change_callback(self, mobber_list, current_driver_index, next_driver_index):
+    def mobber_list_change_callback(self, mobber_list, current_driver_index, next_driver_index, navigator_index):
         self.current_driver_label['text'] = ""
         self.next_driver_label['text'] = ""
         for index in range(0, mobber_list.__len__()):

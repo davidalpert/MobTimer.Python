@@ -69,11 +69,12 @@ class DojoManager(object):
         payload = json.dumps(payload_dictionary)
         self.publish(topic, payload)
 
-    def publish_mobber_list_changes(self, mobber_list, driver_index, next_driver_index):
+    def publish_mobber_list_changes(self, mobber_list, driver_index, next_driver_index, navigator_index):
         topic = self.generate_topic(TOPIC_MOBBER_LIST)
         payload_object = {
             "driver_index": driver_index,
             "next_driver_index": next_driver_index,
+            "navigator_index": navigator_index,
             "mobber_list": mobber_list
         }
         payload = json.dumps(payload_object)

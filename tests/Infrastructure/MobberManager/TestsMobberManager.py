@@ -106,7 +106,7 @@ class TestsMobberManager(unittest.TestCase):
         mobber_manager = MobberManager()
         result = {"result": "Mobbers in List for Each Change\n", "increment": 0}
 
-        def time_change_callback(mobber_list, driver_index, next_driver_index):
+        def time_change_callback(mobber_list, driver_index, next_driver_index, navigator_index):
             result["increment"] += 1
             result["result"] += "Action " + result["increment"].__str__() + ":"
             for mobber_index in range(0, mobber_list.__len__()):
@@ -154,7 +154,7 @@ class TestsMobberManager(unittest.TestCase):
         mobber_manager = MobberManager(True)
         result = {"result": "Mobbers in List for Each Change\n", "increment": 0}
 
-        def time_change_callback(mobber_list, driver_index, next_driver_index):
+        def time_change_callback(mobber_list, driver_index, next_driver_index, navigator_index):
             result["increment"] += 1
             result["result"] += "Action " + result["increment"].__str__() + ":"
             for mobber_index in range(0, mobber_list.__len__()):

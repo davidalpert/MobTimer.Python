@@ -37,7 +37,7 @@ class TransparentCountdownFrame(ttk.Frame):
                 self.controller.show_minimal_screen_blocker_frame()
 
 
-    def mobber_list_change_callback(self, mobber_list, current_driver_index, next_driver_index):
+    def mobber_list_change_callback(self, mobber_list, current_driver_index, next_driver_index, navigator_index):
         mobber_count = mobber_list.__len__()
         if mobber_count > next_driver_index:
             self.label_next_driver['text'] = self.get_next_driver_text(mobber_list[next_driver_index])

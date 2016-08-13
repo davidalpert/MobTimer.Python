@@ -29,7 +29,7 @@ class ScreenBlockerFrame(ttk.Frame):
         self.time_options_manager.subscribe_to_timechange(self.time_change_callback)
         self.mobber_manager.subscribe_to_mobber_list_change(self.mobber_list_change_callback)
 
-    def mobber_list_change_callback(self, mobber_list, current_driver_index, next_driver_index):
+    def mobber_list_change_callback(self, mobber_list, current_driver_index, next_driver_index, navigator_index):
         for i in self.names_list.get_children():
             self.names_list.delete(i)
         for index in range(0, mobber_list.__len__()):
