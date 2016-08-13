@@ -5,10 +5,10 @@ from tkinter import ttk
 
 class UniqueScaledTheme(object):
     def __init__(self, scale, button_style_id, treeview_style_id, start_button_style_id, title_style_id, label_style_id,
-                 clock_style_id, entry_style_id, ttk_entry_style_cannot_specify_a_font_bug,next_mobber_label_style_id
-                                 ,current_mobber_label_style_id):
-        self.current_mobber_label_style_id = current_mobber_label_style_id
-        self.next_mobber_label_style_id = next_mobber_label_style_id
+                 clock_style_id, entry_style_id, ttk_entry_style_cannot_specify_a_font_bug,next_driver_label_style_id
+                                 ,current_driver_label_style_id):
+        self.current_driver_label_style_id = current_driver_label_style_id
+        self.next_driver_label_style_id = next_driver_label_style_id
         self.ttk_entry_style_cannot_specify_a_font_bug = ttk_entry_style_cannot_specify_a_font_bug
         self.entry_style_id = entry_style_id
         self.clock_style_id = clock_style_id
@@ -96,11 +96,11 @@ class ThemeManager(object):
         label_style_id = "{}.TLabel".format(window_id)
         style.configure(label_style_id, font="Helvetica {} bold".format(int(15 * scale)))
 
-        next_mobber_label_style_id = "{}NextMobber.TLabel".format(window_id)
-        style.configure(next_mobber_label_style_id, font="Helvetica {}".format(int(50 * scale)))
+        next_driver_label_style_id = "{}NextDriver.TLabel".format(window_id)
+        style.configure(next_driver_label_style_id, font="Helvetica {}".format(int(50 * scale)))
 
-        current_mobber_label_style_id = "{}CurrentMobber.TLabel".format(window_id)
-        style.configure(current_mobber_label_style_id, font="Helvetica {} bold italic".format(int(50 * scale)))
+        current_driver_label_style_id = "{}CurrentDriver.TLabel".format(window_id)
+        style.configure(current_driver_label_style_id, font="Helvetica {} bold italic".format(int(50 * scale)))
 
         clock_size = int(180 * scale)
         clock_style_id = "ClockLabel{}.TLabel".format(window_id)
@@ -115,5 +115,5 @@ class ThemeManager(object):
 
         return UniqueScaledTheme(scale, button_style_id, treeview_style_id, start_button_style_id, title_style_id,
                                  label_style_id, clock_style_id, entry_style_id,
-                                 ttk_entry_style_cannot_specify_a_font_bug,next_mobber_label_style_id
-                                 ,current_mobber_label_style_id)
+                                 ttk_entry_style_cannot_specify_a_font_bug,next_driver_label_style_id
+                                 ,current_driver_label_style_id)

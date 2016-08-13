@@ -3,7 +3,7 @@ import random
 
 class MobberManager(object):
     def __init__(self, randomize=False):
-        self.driver_index = 0
+        self.current_driver_index = 0
         self.next_driver_index = 1
         self.mobber_list = []
         self.mobber_list_change_callbacks = []
@@ -49,7 +49,7 @@ class MobberManager(object):
         self.update_next_driver_index()
         for mobber_list_change_callback in self.mobber_list_change_callbacks:
             if mobber_list_change_callback:
-                mobber_list_change_callback(self.mobber_list, self.driver_index, self.next_driver_index)
+                mobber_list_change_callback(self.mobber_list, self.current_driver_index, self.next_driver_index)
 
     def clear(self):
         self.mobber_list = []
@@ -59,9 +59,9 @@ class MobberManager(object):
         mobber_count = self.mobber_list.__len__()
         if mobber_count > 0:
             if self.randomize and mobber_count > 2:
-                self.driver_index = self.next_driver_index
+                self.current_driver_index = self.next_driver_index
             else:
-                self.driver_index = (self.driver_index + 1) % mobber_count
+                self.current_driver_index = (self.current_driver_index + 1) % mobber_count
         self.fire_mobber_list_change_callbacks()
 
     def update_next_driver_index(self):
@@ -69,21 +69,21 @@ class MobberManager(object):
         if mobber_count > 0:
             if self.randomize and mobber_count > 2:
                 self.next_driver_index = int(random.uniform(0, mobber_count))
-                while self.driver_index == self.next_driver_index:
+                while self.current_driver_index == self.next_driver_index:
                     self.next_driver_index = int(random.uniform(0, mobber_count))
             else:
-                self.driver_index = self.driver_index % mobber_count
-                self.next_driver_index = (self.driver_index + 1) % mobber_count
+                self.current_driver_index = self.current_driver_index % mobber_count
+                self.next_driver_index = (self.current_driver_index + 1) % mobber_count
         else:
-            self.driver_index = 0
+            self.current_driver_index = 0
             self.next_driver_index = 1
 
     def rewind_driver(self):
         mobber_count = self.mobber_list.__len__()
         if mobber_count > 0:
-            self.driver_index = (self.driver_index - 1)
-            if self.driver_index < 0:
-                self.driver_index = mobber_count - 1
+            self.current_driver_index = (self.current_driver_index - 1)
+            if self.current_driver_index < 0:
+                self.current_driver_index = mobber_count - 1
         self.update_next_driver_index()
         self.fire_mobber_list_change_callbacks()
 

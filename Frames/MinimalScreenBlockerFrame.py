@@ -34,7 +34,6 @@ class MinimalScreenBlockerFrame(ttk.Frame):
         scale = self.master.monitor.height / ScreenUtility.get_expected_height()
         unique_theme = self.theme_manager.get_unique_theme_for_scale(scale)
 
-
         center_frame = ttk.Frame(self)
         center_frame.grid()
 
@@ -43,7 +42,11 @@ class MinimalScreenBlockerFrame(ttk.Frame):
         image_utility = ImageUtility(self.theme_manager)
         icon_size = int(75*scale)
         invisible_path = PathUtility.normalize_path('images\\invisible.png')
+
         self.invisible_icon = image_utility.load(invisible_path, icon_size, icon_size)
+        self.current_driver_icon = image_utility.load(PathUtility.normalize_path('images\\keyboard.png'), icon_size, icon_size)
+        self.next_driver_icon = image_utility.load(PathUtility.normalize_path('images\\minions.png'), icon_size, icon_size)
+
         self.fade_label = ttk.Label(center_frame, image=self.invisible_icon)
         self.fade_label.grid(row=0, column=0, sticky=(N, W))
         self.fade_label.bind("<Enter>", lambda event: self.controller.fade_app())
@@ -63,26 +66,26 @@ class MinimalScreenBlockerFrame(ttk.Frame):
         title.grid(row=row_index, column=0, columnspan=6, padx=title_padx, pady=pad_y)
         row_index += 1
 
+        self.current_driver_icon_label = ttk.Label(center_frame, image=self.current_driver_icon)
+        self.current_driver_icon_label.grid(row=row_index, column=1, sticky=(N, E))
 
-        self.keyboard_icon = image_utility.load(PathUtility.normalize_path('images\\keyboard.png'), icon_size, icon_size)
-        self.keyboard_label = ttk.Label(center_frame, image=self.keyboard_icon)
-        self.keyboard_label.grid(row=row_index, column=1, sticky=(N, E))
+        self.current_driver_label = ttk.Label(center_frame, text="", style=unique_theme.current_driver_label_style_id)
+        self.current_driver_label.grid(row=row_index, column=2, columnspan=1, sticky=(N, W))
+        self.current_driver_label.bind("<Button-1>", lambda event: self.mobber_manager.switch_next_driver())
 
-        self.current_mobber_label = ttk.Label(center_frame, text="", style=unique_theme.current_mobber_label_style_id)
-        self.current_mobber_label.grid(row=row_index, column=2, columnspan=1, sticky=(N, W))
-        self.current_mobber_label.bind("<Button-1>", lambda event: self.mobber_manager.switch_next_driver())
+        self.next_driver_icon_label = ttk.Label(center_frame, image=self.next_driver_icon)
+        self.next_driver_icon_label.grid(row=row_index, column=3, sticky=(N, E))
 
-        self.minions_icon = image_utility.load(PathUtility.normalize_path('images\\minions.png'), icon_size, icon_size)
-        self.minions_label = ttk.Label(center_frame, image=self.minions_icon)
-        self.minions_label.grid(row=row_index, column=3, sticky=(N, E))
+        self.next_driver_label = ttk.Label(center_frame, text="", style=unique_theme.next_driver_label_style_id)
+        self.next_driver_label.grid(row=row_index, column=4, columnspan=1, sticky=(N, W))
+        self.next_driver_label.bind("<Button-1>", lambda event: self.mobber_manager.switch_next_driver())
 
-        self.next_mobber_label = ttk.Label(center_frame, text="", style=unique_theme.next_mobber_label_style_id)
-        self.next_mobber_label.grid(row=row_index, column=4, columnspan=1, sticky=(N, W))
         row_index += 1
 
         start_button = ttk.Button(center_frame, text="Continue Mobbing!", style=unique_theme.start_button_style_id)
         start_button.grid(row=row_index, column=1, columnspan=4, sticky=N + E + W, padx=pad_y, pady=pad_y)
         start_button.bind("<Button-1>", lambda event: self.controller.show_transparent_countdown_frame())
+
         row_index += 1
 
         if self.settings_manager.get_general_enable_tips():
@@ -121,15 +124,15 @@ class MinimalScreenBlockerFrame(ttk.Frame):
         return "Extend Time By {:0>2}:{:0>2} ({})".format(minutes, seconds,
                                                        self.controller.timer_extension_count - self.controller.extensions_used)
 
-    def mobber_list_change_callback(self, mobber_list, driver_index, navigator_index):
-        self.current_mobber_label['text'] = ""
-        self.next_mobber_label['text'] = ""
+    def mobber_list_change_callback(self, mobber_list, current_driver_index, next_driver_index):
+        self.current_driver_label['text'] = ""
+        self.next_driver_label['text'] = ""
         for index in range(0, mobber_list.__len__()):
             name = mobber_list[index]
-            if index == driver_index:
-                self.current_mobber_label['text'] = "{} ".format(name)
-            if index == navigator_index:
-                self.next_mobber_label['text'] = "{}".format(name)
+            if index == current_driver_index:
+                self.current_driver_label['text'] = "{} ".format(name)
+            if index == next_driver_index:
+                self.next_driver_label['text'] = "{}".format(name)
         if self.settings_manager.get_general_enable_tips():
             self.tip_text['text'] = self.tips_manager.get_random_tip()
 

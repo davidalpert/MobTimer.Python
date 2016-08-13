@@ -40,7 +40,7 @@ class SettingsManager(object):
     def get_transparent_window_count_down_timer_font_size(self):
         return self.window_settings_.getint("count down timer font size", 30)
 
-    def get_transparent_window_driver_font_size(self):
+    def get_transparent_window_current_driver_font_size(self):
         return self.window_settings_.getint("driver font size", 10)
 
     def get_transparent_window_next_driver_font_size(self):

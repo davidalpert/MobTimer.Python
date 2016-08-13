@@ -37,16 +37,16 @@ class TransparentCountdownFrame(ttk.Frame):
                 self.controller.show_minimal_screen_blocker_frame()
 
 
-    def mobber_list_change_callback(self, mobber_list, driver_index, navigator_index):
+    def mobber_list_change_callback(self, mobber_list, current_driver_index, next_driver_index):
         mobber_count = mobber_list.__len__()
-        if mobber_count > navigator_index:
-            self.label_navigator['text'] = self.get_navigator_text(mobber_list[navigator_index])
+        if mobber_count > next_driver_index:
+            self.label_next_driver['text'] = self.get_next_driver_text(mobber_list[next_driver_index])
         else:
-            self.label_navigator['text'] = self.get_navigator_text("")
-        if mobber_count > driver_index:
-            self.label_driver['text'] = self.get_driver_text(mobber_list[driver_index])
+            self.label_next_driver['text'] = self.get_next_driver_text("")
+        if mobber_count > current_driver_index:
+            self.label_current_driver['text'] = self.get_driver_text(mobber_list[current_driver_index])
         else:
-            self.label_driver['text'] = self.get_driver_text("")
+            self.label_current_driver['text'] = self.get_driver_text("")
 
     def create_frame_content(self):
         self.grid_rowconfigure(0, weight=0)
@@ -63,23 +63,23 @@ class TransparentCountdownFrame(ttk.Frame):
         row_index += 1
         next_driver_font = "Helvetica {} bold".format(
             self.settings_manager.get_transparent_window_next_driver_font_size())
-        self.label_navigator = ttk.Label(self, text=self.get_navigator_text(""), font=next_driver_font)
-        self.label_navigator.pack()
+        self.label_next_driver = ttk.Label(self, text=self.get_next_driver_text(""), font=next_driver_font)
+        self.label_next_driver.pack()
 
         row_index += 1
-        driver_font = "Helvetica {} bold".format(self.settings_manager.get_transparent_window_driver_font_size())
-        self.label_driver = ttk.Label(self, text=self.get_driver_text(""), font=driver_font)
-        self.label_driver.pack()
+        current_driver_font = "Helvetica {} bold".format(self.settings_manager.get_transparent_window_current_driver_font_size())
+        self.label_current_driver = ttk.Label(self, text=self.get_driver_text(""), font=current_driver_font)
+        self.label_current_driver.pack()
         row_index += 1
 
 
         self.bind("<Button-1>", lambda event: self.reset_theme_and_continue_mobbing())
         self.label_time.bind("<Button-1>", lambda event: self.reset_theme_and_continue_mobbing())
-        self.label_navigator.bind("<Button-1>", lambda event: self.reset_theme_and_continue_mobbing())
-        self.label_driver.bind("<Button-1>", lambda event: self.reset_theme_and_continue_mobbing())
+        self.label_next_driver.bind("<Button-1>", lambda event: self.reset_theme_and_continue_mobbing())
+        self.label_current_driver.bind("<Button-1>", lambda event: self.reset_theme_and_continue_mobbing())
 
-    def get_navigator_text(self, name):
-        return "Next: " + name
+    def get_next_driver_text(self, name):
+        return "Next Driver: " + name
 
     def get_driver_text(self, name):
         return "Driver: " + name

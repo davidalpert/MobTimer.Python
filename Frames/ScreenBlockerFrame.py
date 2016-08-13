@@ -6,7 +6,7 @@ from tkinter import ttk
 from Infrastructure import ScreenUtility
 from Infrastructure.ImageUtility import ImageUtility
 
-TAGNAME_CURRENT_MOBBER = 'current_mobber'
+TAGNAME_CURRENT_DRIVER = 'current_mobber'
 
 
 class ScreenBlockerFrame(ttk.Frame):
@@ -29,7 +29,7 @@ class ScreenBlockerFrame(ttk.Frame):
         self.time_options_manager.subscribe_to_timechange(self.time_change_callback)
         self.mobber_manager.subscribe_to_mobber_list_change(self.mobber_list_change_callback)
 
-    def mobber_list_change_callback(self, mobber_list, driver_index, navigator_index):
+    def mobber_list_change_callback(self, mobber_list, current_driver_index, next_driver_index):
         for i in self.names_list.get_children():
             self.names_list.delete(i)
         for index in range(0, mobber_list.__len__()):
@@ -39,11 +39,11 @@ class ScreenBlockerFrame(ttk.Frame):
                 if self.controller.dojo_manager.station_drivers.__contains__(name):
                     name += " <= {}".format(self.controller.dojo_manager.station_drivers[name])
             else:
-                if index == driver_index:
-                    tags = TAGNAME_CURRENT_MOBBER
-                    name += " <= Current"
-                if index == navigator_index:
-                    name += " <= Next"
+                if index == current_driver_index:
+                    tags = TAGNAME_CURRENT_DRIVER
+                    name += " <= Current Driver"
+                if index == next_driver_index:
+                    name += " <= Next Driver"
 
             self.names_list.insert('', END, text=name, tags=tags)
 
@@ -136,7 +136,7 @@ class ScreenBlockerFrame(ttk.Frame):
         row_index += 1
 
         self.names_list = ttk.Treeview(center_frame, style=unique_theme.treeview_style_id)
-        self.names_list.tag_configure(TAGNAME_CURRENT_MOBBER, background=self.theme_manager.highlight_color,
+        self.names_list.tag_configure(TAGNAME_CURRENT_DRIVER, background=self.theme_manager.highlight_color,
                                       foreground=self.theme_manager.background_color)
         self.names_list['show'] = 'tree'
         self.names_list.grid(row=row_index, rowspan=7, columnspan=2, column=1, padx=pad_x_scaled, pady=button_pad,
