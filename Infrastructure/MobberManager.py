@@ -9,6 +9,7 @@ class MobberManager(object):
         self.mobber_list = []
         self.mobber_list_change_callbacks = []
         self.randomize = randomize
+        self.drive_after_navigating = drive_after_navigating
 
     def mobber_count(self):
         return self.mobber_list.__len__()
@@ -75,10 +76,15 @@ class MobberManager(object):
             else:
                 self.current_driver_index = self.current_driver_index % mobber_count
                 self.next_driver_index = (self.current_driver_index + 1) % mobber_count
+
+            if self.drive_after_navigating:
+                self.navigator_index = self.next_driver_index
+            else:
+                self.navigator_index = (self.current_driver_index + mobber_count - 1) % mobber_count
         else:
             self.current_driver_index = 0
             self.next_driver_index = 1
-        self.navigator_index = self.next_driver_index
+            self.navigator_index = self.next_driver_index
 
     def rewind_driver(self):
         mobber_count = self.mobber_list.__len__()
