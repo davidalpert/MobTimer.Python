@@ -58,6 +58,9 @@ class SettingsManager(object):
     def get_randomize_randomize_next_driver(self):
         return self.general_settings_.getboolean("randomize next driver", 'False')
 
+    def get_drive_after_navigating(self):
+        return self.general_settings_.getboolean("drive after navigating", 'True')
+
     def get_general_use_logo_image(self):
         return self.general_settings_.getboolean("use logo image", 'False')
 
