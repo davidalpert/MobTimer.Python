@@ -28,7 +28,7 @@ class MobTimerController(Tk):
         self.settings_manager = SettingsManager()
         self.tips_manager = TipsManager()
         self.time_options_manager = TimeSettingsManager()
-        self.mobber_manager = MobberManager(self.settings_manager.get_randomize_randomize_next_driver())
+        self.mobber_manager = MobberManager(self.settings_manager.get_randomize_randomize_next_driver(), self.settings_manager.get_drive_after_navigating())
         self.countdown_manager = CountdownManager(self)
         self.session_manager = SessionManager(uuid)
         self.timer_extension_count = self.settings_manager.get_timer_extension_count()
